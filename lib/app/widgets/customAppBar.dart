@@ -1,9 +1,12 @@
+import 'package:Bipp/app/models/course_model.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final double heigthScreen;
-  CustomAppBar({this.heigthScreen});
+  final bool isCoursePage;
+  final CourseModel courseModel;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  CustomAppBar({this.isCoursePage = false, this.courseModel, this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +19,11 @@ class CustomAppBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black12,
             image: DecorationImage(
-              image:  NetworkImage("https://www.jaciaranews.com.br/userfiles/imagens/materias/medium/279165111_trocapneus2.jpg"),
+              image:  NetworkImage(
+                !isCoursePage ? "https://www.jaciaranews.com.br/userfiles/imagens/materias/medium/279165111_trocapneus2.jpg":
+                courseModel.urlImage,
+
+              ),
               fit: BoxFit.cover
             ),
             borderRadius: BorderRadius.only(
@@ -39,17 +46,37 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 50.0, left: 20, right: 20),
+                padding: !isCoursePage ? EdgeInsets.only(bottom: 50.0, left: 20, right: 20):
+                EdgeInsets.only(bottom: 70.0, left: 20, right: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Text("CURSOS E TREINAMENTOS",
+                    isCoursePage ? InkWell(
+                      onTap: ()=> Navigator.pop(context),
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 20),
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(width: 2, color: Colors.white),
+                            top: BorderSide(width: 2, color: Colors.white),
+                            left: BorderSide(width: 2, color: Colors.white),
+                            right: BorderSide(width: 2, color: Colors.white)
+                          ),
+                          borderRadius: BorderRadius.circular(100)
+                        ),
+                        child: Icon(Icons.arrow_back_ios, size: 15,color: Colors.white,),
+                      ),
+                    ): Container(), 
+                    isCoursePage ? SizedBox(height: 5,): Container(),
+                    Text(!isCoursePage ? "CURSOS E TREINAMENTOS": courseModel.title.toUpperCase(),
                       style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Text("Selecione o curso ou treinamento\nque deseja.", 
-                      style: Theme.of(context).textTheme.headline1,
                       textAlign: TextAlign.center,
                     ),
+                    !isCoursePage ? Text("Selecione o curso ou treinamento\nque deseja.", 
+                      style: Theme.of(context).textTheme.headline1,
+                      textAlign: TextAlign.center,
+                    ): Container(),
                   ],
                 ),
               ),
@@ -58,7 +85,7 @@ class CustomAppBar extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   icon: Icon(Icons.menu, color: Colors.white, size: 30,),
-                  onPressed: null//() => _scaffoldKey.currentState.openDrawer(),
+                  onPressed: () => scaffoldKey.currentState.openEndDrawer(),
                 )
               ),
               Container(
@@ -67,9 +94,9 @@ class CustomAppBar extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: FancyShimmerImage(
-                    height: 45,
-                    width: 60,
-                    imageUrl: "https://imagensemoldes.com.br/wp-content/uploads/2020/05/Engrenagem-Bicolor-PNG-1200x675.png",
+                    height: 55,
+                    width: 65,
+                    imageUrl: "https://towerdefensesqn.files.wordpress.com/2013/09/engrenagens_laranja.png?w=640",
                     boxFit: BoxFit.cover,  
                   )
                 )

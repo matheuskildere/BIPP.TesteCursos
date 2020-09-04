@@ -1,8 +1,13 @@
 import 'dart:convert';
 
 import 'package:Bipp/app/models/course_model.dart';
+import 'package:Bipp/app/pages/course/course_page.dart';
+import 'package:Bipp/app/utils/theme/color.dart';
 import 'package:Bipp/app/widgets/customAppBar.dart';
 import 'package:Bipp/app/widgets/customButton.dart';
+import 'package:Bipp/app/widgets/customDrawer.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,18 +17,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      key: _scaffoldKey,
+      endDrawerEnableOpenDragGesture: false,
+      endDrawer: CustomDrawer(),
       body: Column(
         children: <Widget>[
-          CustomAppBar(),
+          CustomAppBar(scaffoldKey: _scaffoldKey),
           SizedBox(height: 20,),
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(left: 20.0, right: 20, top: 20, bottom: 20),
+              padding: EdgeInsets.all(20),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -33,14 +40,42 @@ class _HomePageState extends State<HomePage> {
                 child: FutureBuilder<List<CourseModel>>(
                   future: _getListOfCouses(),
                   builder: (context, snapshot) {
+                    int countButtons = 0;
                     return !snapshot.hasError && snapshot.hasData ? Column(
                       children: snapshot.data.map(
-                        (courseModel) => CustomButton(
-                          title: courseModel.title,
-                          urlImage: courseModel.urlImage,
-                        ),
+                        (courseModel) {
+                          countButtons++;
+                          return Column(
+                            children: <Widget>[
+                              CustomButton(
+                                title: courseModel.title,
+                                urlImage: courseModel.urlImage,
+                                buttonFunction: () => Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => CoursePage(courseModel: courseModel,),)
+                                ),
+                              ),
+                              countButtons < snapshot.data.length ? Divider(): Container()
+                            ],
+                          );
+                        },
                       ).toList()
-                    ): Text("Ola mundo");
+                    ): Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(Icons.assignment_late, color: colorGreyB2, size: 30,),
+                              SizedBox(width: 10,),
+                              Text("Ops, algo deu errado!"),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Text("Não encontramos nenhum curso ou treinamento para você!", textAlign: TextAlign.center,)
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),
@@ -66,11 +101,25 @@ class _HomePageState extends State<HomePage> {
     dynamic response = await _fileToJson();
     List<CourseModel> listCouses = List();
     for (var course in response) {
-      listCouses.add(CourseModel(
-        title: course['title'],
-        urlImage: course['urlImage'],
-        description: course['description']
-      ));
+      if (course['urlImagesDescription'] !=null) {
+        List<String> urlImagesList = List();
+        for (String url in course['urlImagesDescription']) {
+          urlImagesList.add(url);
+        }
+        listCouses.add(CourseModel(
+          title: course['title'],
+          urlImage: course['urlImage'],
+          description: course['description'],
+          urlImagesDescription: urlImagesList
+        ));
+      }else {
+        listCouses.add(CourseModel(
+          title: course['title'],
+          urlImage: course['urlImage'],
+          description: course['description']
+        ));
+      }
+      
     }
     return listCouses;
   }
