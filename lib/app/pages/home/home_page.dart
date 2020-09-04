@@ -1,13 +1,12 @@
-import 'dart:convert';
 
 import 'package:Bipp/app/models/course_model.dart';
 import 'package:Bipp/app/pages/course/course_page.dart';
+import 'package:Bipp/app/shared/repository/course_repository.dart';
 import 'package:Bipp/app/utils/theme/color.dart';
 import 'package:Bipp/app/widgets/customAppBar.dart';
 import 'package:Bipp/app/widgets/customButton.dart';
 import 'package:Bipp/app/widgets/customDrawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -36,7 +35,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 width: double.maxFinite,
                 child: FutureBuilder<List<CourseModel>>(
-                  future: _getListOfCouses(),
+                  future: CourseRepository().getListOfCouses(),
                   builder: (context, snapshot) {
                     if (snapshot != null) {
                       int countButtons = 0;
@@ -86,43 +85,5 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-
-  Future<String> _loadJsonFromAsset() async {
-    return await rootBundle.loadString("assets/data/courses_data.json");
-  }
-
-  Future<dynamic> _fileToJson() async {
-    String jsonString = await _loadJsonFromAsset();
-    final jsonResponse = jsonDecode(jsonString)["courses"];
-
-    return jsonResponse;
-  }
-
-  Future<List<CourseModel>> _getListOfCouses() async {
-    dynamic response = await _fileToJson();
-    List<CourseModel> listCouses = List();
-    for (var course in response) {
-      if (course['urlImagesDescription'] !=null) {
-        List<String> urlImagesList = List();
-        for (String url in course['urlImagesDescription']) {
-          urlImagesList.add(url);
-        }
-        listCouses.add(CourseModel(
-          title: course['title'],
-          urlImage: course['urlImage'],
-          description: course['description'],
-          urlImagesDescription: urlImagesList
-        ));
-      }else {
-        listCouses.add(CourseModel(
-          title: course['title'],
-          urlImage: course['urlImage'],
-          description: course['description']
-        ));
-      }
-      
-    }
-    return listCouses;
   }
 }
