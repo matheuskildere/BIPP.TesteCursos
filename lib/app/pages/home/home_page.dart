@@ -38,42 +38,46 @@ class _HomePageState extends State<HomePage> {
                 child: FutureBuilder<List<CourseModel>>(
                   future: _getListOfCouses(),
                   builder: (context, snapshot) {
-                    int countButtons = 0;
-                    return !snapshot.hasError && snapshot.hasData ? Column(
-                      children: snapshot.data.map(
-                        (courseModel) {
-                          countButtons++;
-                          return Column(
-                            children: <Widget>[
-                              CustomButton(
-                                title: courseModel.title,
-                                urlImage: courseModel.urlImage,
-                                buttonFunction: () => Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => CoursePage(courseModel: courseModel,),)
+                    if (snapshot != null) {
+                      int countButtons = 0;
+                      return !snapshot.hasError && snapshot.hasData ? Column(
+                        children: snapshot.data.map(
+                          (courseModel) {
+                            countButtons++;
+                            return Column(
+                              children: <Widget>[
+                                CustomButton(
+                                  title: courseModel.title,
+                                  urlImage: courseModel.urlImage,
+                                  buttonFunction: () => Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => CoursePage(courseModel: courseModel,),)
+                                  ),
                                 ),
-                              ),
-                              countButtons < snapshot.data.length ? Divider(): Container()
-                            ],
-                          );
-                        },
-                      ).toList()
-                    ): Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(Icons.assignment_late, color: colorGreyB2, size: 30,),
-                              SizedBox(width: 10,),
-                              Text("Ops, algo deu errado!"),
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          Text("Não encontramos nenhum curso ou treinamento para você!", textAlign: TextAlign.center,)
-                        ],
-                      ),
-                    );
+                                countButtons < snapshot.data.length ? Divider(): Container()
+                              ],
+                            );
+                          },
+                        ).toList()
+                      ): Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.assignment_late, color: colorGreyB2, size: 30,),
+                                SizedBox(width: 10,),
+                                Text("Ops, algo deu errado!"),
+                              ],
+                            ),
+                            SizedBox(height: 10,),
+                            Text("Não encontramos nenhum curso ou treinamento para você!", textAlign: TextAlign.center,)
+                          ],
+                        ),
+                      );
+                    }else {
+                      return Center(child: CircularProgressIndicator(),);
+                    }
                   },
                 ),
               ),
