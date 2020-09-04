@@ -6,7 +6,7 @@
 ## UM PROJETO FLUTTER APP
 
 <div align="center">
-    <img src="https://github.com/matheuskildere/BIPP.TesteCursos/blob/master/phones.png?raw=true" width="650">
+    <img src="https://github.com/matheuskildere/BIPP.TesteCursos/blob/master/assets/readme/phones.png" width="650">
 </div>
 
 ## Tecnologias
