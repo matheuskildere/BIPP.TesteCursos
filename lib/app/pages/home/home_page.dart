@@ -6,8 +6,6 @@ import 'package:Bipp/app/utils/theme/color.dart';
 import 'package:Bipp/app/widgets/customAppBar.dart';
 import 'package:Bipp/app/widgets/customButton.dart';
 import 'package:Bipp/app/widgets/customDrawer.dart';
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
