@@ -1,3 +1,4 @@
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -13,9 +14,9 @@ class CustomAppBar extends StatelessWidget {
           height: size.height/2.8,
           width: double.maxFinite,
           decoration: BoxDecoration(
-            color: Colors.black26,
+            color: Colors.black12,
             image: DecorationImage(
-              image: NetworkImage("https://www.jaciaranews.com.br/userfiles/imagens/materias/medium/279165111_trocapneus2.jpg"),
+              image:  NetworkImage("https://www.jaciaranews.com.br/userfiles/imagens/materias/medium/279165111_trocapneus2.jpg"),
               fit: BoxFit.cover
             ),
             borderRadius: BorderRadius.only(
@@ -65,10 +66,12 @@ class CustomAppBar extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    "https://imagensemoldes.com.br/wp-content/uploads/2020/05/Engrenagem-Bicolor-PNG-1200x675.png",
+                  child: FancyShimmerImage(
                     height: 45,
-                  ),
+                    width: 60,
+                    imageUrl: "https://imagensemoldes.com.br/wp-content/uploads/2020/05/Engrenagem-Bicolor-PNG-1200x675.png",
+                    boxFit: BoxFit.cover,  
+                  )
                 )
               ),
             ],
