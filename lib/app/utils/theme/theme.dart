@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 final theme = ThemeData(
   backgroundColor: colorBackground,
   primaryColor: colorOrange,
+  scaffoldBackgroundColor: colorBackground,
+  accentColor: colorOrange,
   textTheme: TextTheme(
     bodyText1: TextStyle(
       color: colorOrange,
@@ -18,6 +20,11 @@ final theme = ThemeData(
     ),
     headline1: TextStyle(
       color: colorGreyH1,
+      fontWeight: FontWeight.w300,
+      fontSize: 15
+    ),
+    headline2: TextStyle(
+      color: colorGreyB2,
       fontWeight: FontWeight.w300,
       fontSize: 15
     )

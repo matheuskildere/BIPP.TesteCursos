@@ -6,11 +6,13 @@ class CourseModel {
   String title;
   String urlImage;
   String description;
+  List<String> urlImagesDescription;
 
   CourseModel({
     @required this.title,
     @required this.urlImage, 
     @required this.description,
+    this.urlImagesDescription,
   });
 
   Map<String, dynamic> toMap() {
@@ -18,6 +20,7 @@ class CourseModel {
       'title': title,
       'urlImage': urlImage,
       'description': description,
+      'urlImagesDescription': urlImagesDescription,
     };
   }
 
@@ -28,6 +31,7 @@ class CourseModel {
       title: map['title'],
       urlImage: map['urlImage'],
       description: map['description'],
+      urlImagesDescription: map['urlImagesDescription'],
     );
   }
 

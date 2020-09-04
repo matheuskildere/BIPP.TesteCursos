@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final String urlImage;
+  final Function buttonFunction;
 
-  CustomButton({@required this.title, @required this.urlImage});
+  CustomButton({@required this.title, @required this.urlImage, this.buttonFunction});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: (){print("object");},
+        onTap: buttonFunction,
         child: Container(
           padding: EdgeInsets.only(top:20, right: 20,left: 50, bottom: 20),
           child: Row(
