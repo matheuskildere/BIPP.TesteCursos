@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black26,
             image: DecorationImage(
-              image: NetworkImage("https://lh3.googleusercontent.com/proxy/6OxuX_qVxHj2Disp5nO-lybzbNzHkd023lznsOyBYvmZKd-FTnINqz9cAiKJKsZoGx2K6t3QqJeLK3bsJx1uDF_NhgrcDuNm_pmITc7F08JHDz5he4RDfiSv94Yudr-Vmem8dJunXc74XQLk8MWBXToMUB6fNg"),
+              image: NetworkImage("https://www.jaciaranews.com.br/userfiles/imagens/materias/medium/279165111_trocapneus2.jpg"),
               fit: BoxFit.cover
             ),
             borderRadius: BorderRadius.only(
